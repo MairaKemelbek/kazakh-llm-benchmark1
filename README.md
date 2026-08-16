@@ -97,9 +97,9 @@ python scripts/analysis.py
 @article{kemelbek2026kazakh,
   title   = {Benchmarking Large Language Models on Kazakh Text Understanding
              and Knowledge Tasks: Implications for Educational AI Assistants},
-  author  = {Kemelbek, Maira and others},
-  journal = {(under review)},
-  year    = {2026}
+  author  = {Kemelbek, Maira},
+  journal = {(not published)},
+  year    = {2026-2027}
 }
 ```
 
