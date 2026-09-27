@@ -1,4 +1,4 @@
-# Benchmarking LLMs on Kazakh Text Understanding and Knowledge Tasks
+# Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants
 
 Code for the paper *"Benchmarking Large Language Models on Kazakh Text Understanding
 and Knowledge Tasks: Implications for Educational AI Assistants."*
