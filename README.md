@@ -1,7 +1,6 @@
 # Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants
 
-Code for the paper *"Benchmarking Large Language Models on Kazakh Text Understanding
-and Knowledge Tasks: Implications for Educational AI Assistants."*
+Code and raw model outputs for the paper *"Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants"* (under review).
 
 The study evaluates five commercial LLMs (GPT-4o, GPT-4o-mini, Claude Sonnet,
 Claude Haiku, Gemini Flash Lite) across three zero-shot regimes that progressively
