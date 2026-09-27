@@ -51,15 +51,19 @@ def odds_ratio_ci(b, c, conf=0.95):
 
 
 def load_correct(stage, model):
-    """Әр элемент бойынша дұрыс/қате векторын қайтарады."""
+    """Return the item-level correct/incorrect vector, indexed by item position.
+
+    FIX (revision): items are paired by their position in the sampled file (= item ID),
+    not by question text. KazQAD contains duplicated question strings, and joining on
+    text produced 314 instead of 300 pairs. Sentiment parse failures (pred == -1) are
+    now counted as incorrect instead of being dropped.
+    """
     if stage == "sentiment":
         d = pd.read_csv(RESULTS / f"kazsandra_test300_{model}.csv")
-        d = d[d.pred != -1]
-        return d.set_index("text").apply(lambda r: int(r.gold == r.pred), axis=1)
+        return (d.gold == d.pred).astype(int).reset_index(drop=True)
     tag = "kazqad_test300" if stage == "qa_context" else "kazqad_cb300"
     d = pd.read_csv(RESULTS / f"{tag}_{model}.csv")
-    d = d[~d.raw.astype(str).str.startswith("ERROR")]
-    return d.set_index("question")["contain"]
+    return d["contain"].astype(int).reset_index(drop=True)
 
 
 # ---------------------------------------------------------------- tables
@@ -70,13 +74,13 @@ def table_main():
     rows = []
     for m in MODELS:
         d = pd.read_csv(RESULTS / f"kazsandra_test300_{m}.csv")
-        ok = d[d.pred != -1]
+        ok = d.assign(pred=d.pred.replace(-1, 2))  # parse failure = incorrect
         rc = pd.read_csv(RESULTS / f"kazqad_test300_{m}.csv")
         cb = pd.read_csv(RESULTS / f"kazqad_cb300_{m}.csv")
         rows.append({
             "Model": LABELS[m],
             "Sent_Acc": round(accuracy_score(ok.gold, ok.pred), 3),
-            "Sent_F1": round(f1_score(ok.gold, ok.pred, average="macro"), 3),
+            "Sent_F1": round(f1_score(ok.gold, ok.pred, labels=[0, 1], average="macro"), 3),
             "QActx_EM": round(rc.em.mean(), 3),
             "QActx_Cont": round(rc.contain.mean(), 3),
             "QAcb_EM": round(cb.em.mean(), 3),
@@ -95,8 +99,9 @@ def mcnemar_regime(stage, label):
     vec = {m: load_correct(stage, m) for m in MODELS}
     pairs, ps = [], []
     for a, b in itertools.combinations(MODELS, 2):
-        j = pd.concat([vec[a], vec[b]], axis=1, join="inner")
-        j.columns = ["a", "b"]
+        j = pd.DataFrame({"a": vec[a], "b": vec[b]})
+        assert len(j) == 300
+        assert int(j.a.sum() - j.b.sum()) == int(((j.a == 1) & (j.b == 0)).sum() - ((j.a == 0) & (j.b == 1)).sum())
         n_a = int(((j.a == 1) & (j.b == 0)).sum())
         n_b = int(((j.a == 0) & (j.b == 1)).sum())
         p = binomtest(n_a, n_a + n_b, 0.5).pvalue if (n_a + n_b) else 1.0
