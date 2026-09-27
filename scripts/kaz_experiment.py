@@ -23,7 +23,7 @@ RESULTS_DIR.mkdir(exist_ok=True)
 
 TEMPERATURE = 0.0
 MAX_TOKENS = 10   # бір сөз ғана керек
-SLEEP = 0.3
+SLEEP = 4
 
 MODELS = {
     "dry-run":       {"provider": "mock"},   # API-сыз тексеру режимі
@@ -31,7 +31,7 @@ MODELS = {
     "gpt-4o":        {"provider": "openai",     "name": "gpt-4o"},
     "claude-haiku":  {"provider": "anthropic",  "name": "claude-haiku-4-5-20251001"},
     "claude-sonnet": {"provider": "anthropic",  "name": "claude-sonnet-4-6"},
-    "gemini-flash":  {"provider": "google",     "name": "gemini-2.0-flash"},
+    "gemini-flash":  {"provider": "google",     "name": "gemini-flash-lite-latest"},
     "llama-3.1-8b":  {"provider": "openrouter", "name": "meta-llama/llama-3.1-8b-instruct"},
     "qwen-2.5-7b":   {"provider": "openrouter", "name": "qwen/qwen-2.5-7b-instruct"},
 }
