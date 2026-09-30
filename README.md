@@ -3,15 +3,15 @@
 Code and raw model outputs for the paper *"Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants"* (under review).
 
 The study evaluates five commercial LLMs (GPT-4o, GPT-4o-mini, Claude Sonnet,
-Claude Haiku, Gemini Flash Lite) across three zero-shot regimes that progressively
-remove external support, so that language competence and parametric knowledge are
-measured separately:
+Claude Haiku, Gemini Flash Lite) in three zero-shot conditions. The two QA conditions
+use the same 300 KazQAD items, with and without the gold supporting passage, so they
+can be compared item by item. Sentiment classification is a separate reference task.
 
-| Regime | Dataset | What it measures |
+| Condition | Dataset | Input |
 |---|---|---|
-| Sentiment | KazSAnDRA | understanding user-generated Kazakh |
-| QA with context | KazQAD | reading comprehension |
-| QA closed-book | KazQAD (no passage) | parametric knowledge |
+| Sentiment | KazSAnDRA (300 reviews) | review text |
+| QA with context | KazQAD (300 items) | question + gold passage (oracle context) |
+| Closed-book QA | KazQAD (same 300 items) | question only |
 
 ## Data
 
@@ -70,37 +70,35 @@ prompt; see `scripts/make_closed_book.py`.
 ## Analysis
 
 ```bash
-# five answer-matching criteria (Table 4)
+# five answer-matching criteria for context-supported QA (Table 5)
 python scripts/metric_compare_real.py
 
-# statistics: McNemar + Holm + odds ratios with CIs (Tables 6, 7)
+# original statistics script: McNemar + Holm + odds ratios with CIs
 python scripts/analysis.py
+
+# analyses added in the revision (Tables 2-4, 6, 8, 9; GEE; sensitivity analyses;
+# human-evaluation sampling and scoring) - see scripts/revision/README.md
+cd scripts/revision && python reanalysis.py
 ```
+
+Raw responses of all five models in the three conditions (15 files, 4,500 responses)
+are in `results/`. Individual human annotation records are not released.
 
 ## Notes on reproducibility
 
 - All sampling uses seed 42; decoding temperature is fixed at 0.
 - A temperature of 0 does not guarantee full determinism in production LLM APIs;
   scores are single-run estimates.
-- Model versions are pinned where the provider exposes dated snapshots
-  (`gpt-4o-2024-08-06`, `gpt-4o-mini-2024-07-18`, `claude-sonnet-4-6`,
-  `claude-haiku-4-5-20251001`). Gemini was accessed through the alias
-  `gemini-flash-lite-latest`, which does not expose a dated version;
-  experiments were run in July 2026.
+- Request identifiers: `gpt-4o`, `gpt-4o-mini`, `claude-sonnet-4-6`,
+  `claude-haiku-4-5-20251001`, `gemini-flash-lite-latest`. The OpenAI API returned
+  the snapshots `gpt-4o-2024-08-06` and `gpt-4o-mini-2024-07-18`. The Gemini alias
+  does not expose a dated version. Experiments were run in July 2026.
 - Requests are issued sequentially with a fixed delay (`SLEEP`) to stay within
   provider rate limits. Adjust it to your quota.
 
 ## Citation
 
-```bibtex
-@article{kemelbek2026kazakh,
-  title   = {Benchmarking Large Language Models on Kazakh Text Understanding
-             and Knowledge Tasks: Implications for Educational AI Assistants},
-  author  = {Kemelbek, Maira},
-  journal = {(not published)},
-  year    = {2026-2027}
-}
-```
+Citation details will be added on publication.
 
 ## License
 
