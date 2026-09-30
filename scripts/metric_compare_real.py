@@ -24,12 +24,12 @@ import pandas as pd
 RESULTS = Path("results")
 MODELS = ["gpt-4o", "claude-sonnet", "gemini-flash", "gpt-4o-mini", "claude-haiku"]
 LABELS = {"gpt-4o": "GPT-4o", "claude-sonnet": "Claude Sonnet",
-          "gemini-flash": "Gemini Flash", "gpt-4o-mini": "GPT-4o-mini",
+          "gemini-flash": "Gemini Flash Lite", "gpt-4o-mini": "GPT-4o-mini",
           "claude-haiku": "Claude Haiku"}
 
 
 def normalize(s):
-    s = str(s).lower().replace("«", " ").replace("»", " ").replace("—", " ")
+    s = str(s).lower().replace("«", " ").replace("»", " ")  # same as kaz_qad_experiment.py
     s = "".join(ch for ch in s if ch not in set(string.punctuation))
     return " ".join(s.split())
 
