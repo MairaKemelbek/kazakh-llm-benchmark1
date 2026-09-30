@@ -10,3 +10,5 @@ stanza>=1.7
 matplotlib>=3.7
 tqdm
 requests
+statsmodels>=0.14
+openpyxl>=3.1
