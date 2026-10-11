@@ -1,6 +1,6 @@
-# Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants
+# Evaluating Large Language Models for Kazakh-Language Educational Assistants: Sentiment Classification and Question Answering with and without Context
 
-Code and raw model outputs for the paper *"Understanding versus Knowledge: Evaluating Large Language Models for Kazakh-Language Educational Assistants"* (under review).
+Code and raw model outputs for the paper *"Evaluating Large Language Models for Kazakh-Language Educational Assistants: Sentiment Classification and Question Answering with and without Context"* by Maira Kemelbek, Zhanat Nurbekova and Ainur Sagimbayeva, accepted for publication in *Information* (MDPI), 2026.
 
 The study evaluates five commercial LLMs (GPT-4o, GPT-4o-mini, Claude Sonnet,
 Claude Haiku, Gemini Flash Lite) in three zero-shot conditions. The two QA conditions
